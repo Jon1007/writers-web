@@ -23,7 +23,7 @@ const authMiddleware = require("./middleware/auth");
 const redirectIfAuth = require("./middleware/redirect");
 
 const MongoUrl =
-	"mongodb+srv://Johnn:Z10072001n@cluster0.ntco2jh.mongodb.net/node-blog";
+	"mongodb+srv://Johnn:oPvCZEUNQjSGwx3s@cluster0.ntco2jh.mongodb.net/node-blog";
 
 mongoose.connect(MongoUrl);
 
