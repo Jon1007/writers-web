@@ -27,38 +27,33 @@ const MongoUrl =
 
 mongoose.connect(MongoUrl);
 
-app.use(
-	expressSession({
-		secret: "zokirjon",
-		store: mongoStore.create({mongoUrl: MongoUrl}),
-	})
-);
-
+app.use(expressSession({
+	secret: "samar",
+	store: mongoStore.create({mongoUrl: MongoUrl})
+}));
 app.use(fileUpload());
 app.use(express.static("public"));
 app.use(expressEdge.engine);
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
-app.use(connectFlash());
+app.use(connectFlash())
 
 app.set("views", `${__dirname}/views`);
 
 app.use((req, res, next) => {
 	app.locals.auth = req.session.userId;
 	next();
-});
+})
 
 app.get("/", homePageController);
 app.get("/post/:id", getPostsController);
+app.get("/logout", authMiddleware, logoutController);
 app.get("/posts/new", authMiddleware, postsNewController);
 app.post("/posts/create", authMiddleware, storePostMiddleware, createPostController);
 app.get("/reg", redirectIfAuth, createUserController);
 app.post("/auth/reg", storeUserController);
 app.get("/login", redirectIfAuth, loginController);
 app.post("/auth/log", loginStoreController);
-app.get("/logout", authMiddleware, logoutController);
-app.use((req,res) => res.render("not_found"))
+app.use((req, res) => res.render("not_found"));
 
-app.listen(5000, () => {
-	console.log("Sever has been started on port 5000...");
-});
+app.listen(5000, () => {console.log("Server has been started on Port 5000...")});
